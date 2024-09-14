@@ -7,14 +7,33 @@ fi
 
 #export PS1="\u@$(ip addr show dev eth0 | grep "inet " | cut -d" " -f6) \W\\$ "
 # User specific aliases and functions
-source /usr/share/git-core/contrib/completion/git-prompt.sh
+source /etc/bash_completion.d/git-prompt
+source /etc/bash_completion
+
 export PS1='\[\033[32m\]\t \u@$(cat /etc/hostname) \[\033[01;30m\][\[\033[00m\]\h\[\033[01;30m\]:\[\033[0;36m\]\w$(__git_ps1 "\[\033[00;32m\]@ \[\033[01;32m\]%s")\[\033[01;30m\]]\[\033[00m\]\n\$ '
 export PATH=$PATH:/root/.config/composer/vendor/bin/
-export PGPASSWORD="postgres"
+export PGPASSWORD=$DB_PASSWORD
+
+export GITHUB_TOKEN=ghp_Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+export GITHUB_OWNER="devbro1"
+export EDITOR="code --wait"
+
+export DD_API_KEY=meow
+export DD_APP_KEY=meow
+export TF_VAR_DD_API_KEY=$DD_API_KEY
+export DD_HOST="https://api.datadoghq.com/"
+
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "/home/linuxbrew/.linuxbrew/opt/nvm/nvm.sh" ] && \. "/home/linuxbrew/.linuxbrew/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/home/linuxbrew/.linuxbrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/home/linuxbrew/.linuxbrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+nvm use default
+
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
 psqll() {
     DB_NAME="${@:-practice_db_1}"
-    psql -U postgres -h db $DB_NAME
+    psql -U postgres -h pg-db $DB_NAME
 }
 
 gitdiff() {
@@ -31,4 +50,41 @@ monitor_log()
     truncate -s 0 $@
     clear
     tail -f $@
+}
+
+killall()
+{
+    if [ $# -ne 1 ]; then
+        echo "Usage: $0 <process_name>"
+        exit 1
+    fi
+
+    ps -A | grep -i $@ | awk '{ system("kill " $1)}'
+}
+
+sops_decrypt() {
+    sops --decrypt $@ > decrypted/$(basename $file)
+}
+
+sops_encrypt() {
+    enc_file=$(echo encrypted/$(basename $@))
+    key=$(cat $enc_file | jq -r '.sops.kms[0].arn' )
+    enc=$(sops --encrypt -kms $key $file)
+    if [ $? -ne 0 ]; then
+        echo "Encryption failed"
+        exit 1
+    fi
+    echo "$enc" > $enc_file
+}
+
+fix_gitignore() {
+    git rm -rf --cached .
+    git add .
+}
+
+set_local_env() {
+    export MONGO_URI=mongodb://userAdmin:userPassword@mongodb:27017/iv-backend?authSource=admin
+    export IV_BACKEND_FIXED_AUTH_TOKEN=????
+    export ENVIRONMENT=development
+    export RABBITMQ_URI=amqp://guest:guest@rabbitmq:5672
 }

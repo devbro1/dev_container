@@ -2,38 +2,78 @@
 #docker-compose -f "docker-compose.yml" up -d --build web
 version: "3.8"
 services:
-  web:
+  development:
+    hostname: "main"
     build:
       context: .
-      dockerfile: docker/web.Dockerfile
+      dockerfile: docker/dev.Dockerfile
     environment:
-    - DB_PASSWORD=postgres
-    - DB_USER=postgres
-    - DB_NAME=postgres
-    - DB_HOST=db
-    - DB_DRIVER=pgsql
+    - DB_PASSWORD=dbpassword
+    - DB_USER=dbadmin
     ports:
     - "80:80"
     - "3000:3000"
     volumes:
     - ./:/host_machine/:rw
-    - web:/root/:rw
-#    hostname: "mycontainer"
-    depends_on:
-    - db
+    - dev_root:/root/:rw
 
-  db:
-    image: postgres:13
+  pg-db:
+    image: postgres:16.2
     ports:
         - "5432:5432"
     environment:
         - POSTGRES_DB=practice_db_1
-        - POSTGRES_USER=postgres
-        - POSTGRES_PASSWORD=postgres
+        - POSTGRES_USER=dbadmin
+        - POSTGRES_PASSWORD=dbpassword
     volumes:
-#    - "mysql_data:/var/lib/mysql"
-    - ./docker/db/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    - ./docker/db/schema_postgres.sql:/docker-entrypoint-initdb.d/schema.sql
+
+  mongodb:
+    image: mongo:7.0.9
+    ports:
+      - "27017:27017"
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=dbadmin
+      - MONGO_INITDB_ROOT_PASSWORD=dbpassword
+  
+  localstack:
+    container_name: "${LOCALSTACK_DOCKER_NAME:-localstack-main}"
+    image: localstack/localstack:latest
+    environment:
+      # LocalStack configuration: https://docs.localstack.cloud/references/configuration/
+      - DEBUG=${DEBUG:-0}
+    volumes:
+      - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+
+  elasticsearch:
+    image: elasticsearch:8.0.0
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      - ELASTIC_PASSWORD=elasticsearch
+      - ELASTIC_USERNAME=elasticsearch
+    
+  rabbitmq:
+    image: rabbitmq:3.13.1-management-alpine
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+  metabase:
+    image: metabase/metabase:latest
+    ports:
+      - "3300:80"
+    environment:
+      - MB_JETTY_PORT=80
+      - MB_DB_TYPE=postgres
+      - MB_DB_DBNAME=metabaseappdb
+      - MB_DB_PORT=5432
+      - MB_DB_USER=postgres
+      - MB_DB_PASS=postgres
+      - MB_DB_HOST=postgres
 
 volumes:
-  web:
+  dev_root:
 #  mysql_data: { driver: local }
