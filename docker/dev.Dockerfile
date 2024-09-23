@@ -15,7 +15,7 @@ COPY --chmod=600 docker/ssh /root/.ssh/
 RUN apt-get update
 RUN DEBIAN_FRONTEND="noninteractive" apt-get -y install tzdata
 RUN apt-get install -y git nginx curl wget bash-completion oathtool jq unzip vim build-essential wkhtmltopdf gnupg software-properties-common mandoc groff
-RUN apt-get install -y chromium nginx
+RUN apt-get install -y chromium nginx xdg-utils
 RUN /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 COPY docker/bashrc /root/.bashrc
