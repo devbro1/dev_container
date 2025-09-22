@@ -1,7 +1,7 @@
 #command to build:
 #docker build --tag test1:v1.1 .
 
-FROM --platform=amd64 ubuntu:noble-20240407.1
+FROM --platform=amd64 ubuntu:noble-20250910
 
 EXPOSE 80:80
 EXPOSE 3000:3000
@@ -15,7 +15,7 @@ COPY --chmod=600 docker/ssh /root/.ssh/
 RUN apt-get update
 RUN DEBIAN_FRONTEND="noninteractive" apt-get -y install tzdata
 RUN apt-get install -y git nginx curl wget bash-completion oathtool jq unzip vim build-essential wkhtmltopdf gnupg software-properties-common mandoc groff
-RUN apt-get install -y chromium nginx xdg-utils locale
+RUN apt-get install -y chromium nginx xdg-utils locale age
 RUN /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 RUN locale-gen en_US.UTF-8
 
@@ -30,7 +30,6 @@ RUN nvm install  v22.8.0 \
     && yarn global add snyk nx
 
 RUN apt install -y postgresql-client mysql-client
-
 
 
 # RUN curl -fsSL https://www.mongodb.org/static/pgp/server-7.0.asc | \
@@ -91,6 +90,7 @@ CMD ["/root/run-at-start.sh"]
 # RUN php composer-installer.php --filename=composer --install-dir=/usr/local/bin 
 # RUN composer global require laravel/installer
 # RUN export PATH=$PATH:/root/.composer/vendor/bin
+
 
 
 
