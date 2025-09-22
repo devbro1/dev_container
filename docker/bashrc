@@ -18,11 +18,14 @@ export GITHUB_TOKEN=ghp_Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 export GITHUB_OWNER="devbro1"
 export EDITOR="code --wait"
 
+# Datadog
 export DD_API_KEY=meow
 export DD_APP_KEY=meow
 export TF_VAR_DD_API_KEY=$DD_API_KEY
 export DD_HOST="https://api.datadoghq.com/"
 
+# Disable brew auto update
+export HOMEBREW_NO_AUTO_UPDATE=0
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "/home/linuxbrew/.linuxbrew/opt/nvm/nvm.sh" ] && \. "/home/linuxbrew/.linuxbrew/opt/nvm/nvm.sh"  # This loads nvm
@@ -84,7 +87,7 @@ fix_gitignore() {
 
 set_local_env() {
     export MONGO_URI=mongodb://userAdmin:userPassword@mongodb:27017/iv-backend?authSource=admin
-    export IV_BACKEND_FIXED_AUTH_TOKEN=????
+    export FIXED_AUTH_TOKEN=????
     export ENVIRONMENT=development
     export RABBITMQ_URI=amqp://guest:guest@rabbitmq:5672
 }

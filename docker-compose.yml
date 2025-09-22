@@ -10,6 +10,7 @@ services:
     environment:
     - DB_PASSWORD=dbpassword
     - DB_USER=dbadmin
+    - DB_NAME=practice_db_1
     ports:
     - "80:80"
     - "3000:3000"
@@ -25,8 +26,6 @@ services:
         - POSTGRES_DB=practice_db_1
         - POSTGRES_USER=dbadmin
         - POSTGRES_PASSWORD=dbpassword
-    volumes:
-    - ./docker/db/schema_postgres.sql:/docker-entrypoint-initdb.d/schema.sql
 
   mongodb:
     image: mongo:7.0.9
@@ -36,6 +35,19 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=dbadmin
       - MONGO_INITDB_ROOT_PASSWORD=dbpassword
+
+  mysql:
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=dbpassword
+      - MYSQL_DATABASE=practice_db_1
+      - MYSQL_USER=dbadmin
+      - MYSQL_PASSWORD=dbpassword
+    volumes:
+      - mysql_data:/var/lib/mysql
   
   localstack:
     container_name: "${LOCALSTACK_DOCKER_NAME:-localstack-main}"
@@ -76,4 +88,4 @@ services:
 
 volumes:
   dev_root:
-#  mysql_data: { driver: local }
+  mysql_data:

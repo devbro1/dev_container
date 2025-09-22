@@ -1,40 +1,57 @@
 # dev_container
-a container I use for personal development
+A docker container meant for all development works a developer may need to do.
+
+It includes a developer container that has all the commands a developer may need.
+
+It includes a docker-compose.yml with all the services you mind need.
 
 # installed tools
-- php 8.4
+- php 8.3
     - Xdebug
-- nvm
+- javascript(nvm)
     - node22
     - node24
+    - yarn
 - database
     - postgresql 16
+    - mysql mongo
+- messaging
+    - rabbitmq
+- BI
+    - metabase
+- localstack: AWS emulator
 - sops
 - age
 - terraform
 - localstack
 - aws-vault
-- gcloud: GCP cli
-- az: Azure cli
 - python3
 - zip
 - tar
 - gcc
 - g++
-- golang
-- rust
 - jq
 - yq
 - gh: github cli
-- glab: gitlab cli
-- asdf
 - lsof
-- hashicorp-vault
 - pwgen
-
+- rust
+- golang
+- hashicorp-vault
+- asdf
+- az: Azure cli
+- glab: gitlab cli
+- gcloud: GCP cli
+- wkhtmltopdf
+- chromium
+- snyk
+- nx
 
 # files to change
-- nginx.conf: set folder it should serve
 - web.Dockerfile: add your name for git config
-- schema.sql: preload a database
 - run-at-start.sh: any script that you need to run after first launch of container
+
+## How to start
+```
+docker compose -f docker-compose.yml up -d --build development 
+```
