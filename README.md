@@ -2,13 +2,35 @@
 a container I use for personal development
 
 # installed tools
-- php 8.2
+- php 8.4
     - Xdebug
 - nvm
-    - node20
-    - node21
+    - node22
+    - node24
 - database
-    - postgresql 13
+    - postgresql 16
+- sops
+- age
+- terraform
+- localstack
+- aws-vault
+- gcloud: GCP cli
+- az: Azure cli
+- python3
+- zip
+- tar
+- gcc
+- g++
+- golang
+- rust
+- jq
+- yq
+- gh: github cli
+- glab: gitlab cli
+- asdf
+- lsof
+- hashicorp-vault
+- pwgen
 
 
 # files to change
