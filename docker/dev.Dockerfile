@@ -20,7 +20,7 @@ RUN apt install -y git nginx curl wget bash-completion oathtool yq jq unzip vim 
     postgresql-client mysql-client \
     zip unzip tar gcc g++ \
     php php-cli php-fpm php-pgsql php-mbstring php-xml php-json php-pdo php-pear gcc php-cli php-common php-fpm php-pgsql php-bcmath php-mysqlnd php-opcache php-gd php-soap php-intl \
-    procps dos2unix python3 python3-pip lsof golang  
+    procps dos2unix python3 python3-pip lsof golang redis-tools
 
 RUN curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg
 RUN echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list

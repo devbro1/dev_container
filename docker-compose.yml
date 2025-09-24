@@ -85,6 +85,14 @@ services:
       - MB_DB_USER=postgres
       - MB_DB_PASS=postgres
       - MB_DB_HOST=postgres
+  redis:
+    image: redis:8.2.1
+    ports:
+      - "6379:6379"
+    restart: always
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data      
 
 volumes:
   dev_root:

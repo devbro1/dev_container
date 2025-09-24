@@ -19,6 +19,8 @@ It includes a docker-compose.yml with all the services you mind need.
     - rabbitmq
 - BI
     - metabase
+- cache
+    - redis
 - localstack: AWS emulator
 - sops
 - age
@@ -46,6 +48,7 @@ It includes a docker-compose.yml with all the services you mind need.
 - chromium
 - snyk
 - nx
+- redis-cli
 
 # files to change
 - web.Dockerfile: add your name for git config
