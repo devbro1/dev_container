@@ -53,8 +53,9 @@ It includes a docker-compose.yml with all the services you mind need.
 # files to change
 - web.Dockerfile: add your name for git config
 - run-at-start.sh: any script that you need to run after first launch of container
+- php is not installed by default, to do so uncomment php install line in dockerfile
 
 ## How to start
-```
-docker compose -f docker-compose.yml up -d --build development 
+```bash
+docker compose --progress=plain -f 'docker-compose.yml' up -d --build 'pg-db' 'redis' 'metabase' 'development'
 ```
